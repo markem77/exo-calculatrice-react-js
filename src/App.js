@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { useState } from 'react'
+import './components/style1.css'
+import Input from './components/Input'
+import Button from './components/Button'
+
 
 function App() {
+
+  const [input, setInput] = useState('');
+
+  const handleClick = (value) => {
+    console.log("button clicked :", value)
+    if (value === 'AC') {
+      setInput(''); 
+    }else if (value === 'DE'){
+      setInput((prevInput) => prevInput.slice(0, -1))
+    }else if (value === '='){
+      calculResult()
+    }else {
+      setInput((prevInput) => prevInput + value);
+    }
+  };
+
+
+  const calculResult = () => {
+    try{
+      const result = eval(input)
+      setInput(result.toString())
+    }catch (error){
+      setInput('Erreur')
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="but-box">
+         <Input value={input}/>
+         <Button handleClick={handleClick}/>
+      </div>
+      
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
